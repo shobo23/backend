@@ -1,5 +1,5 @@
-const solve = require("./maths"); // we exported modules from our math file
-const ExportedInfo = require("./object");
+const solve = require("./modules/maths"); // we exported modules from our math file
+const ExportedInfo = require("./objects/object");
 
 
 
