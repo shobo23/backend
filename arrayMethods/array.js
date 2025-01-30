@@ -50,7 +50,7 @@ const arr = ["Shobo", "Nelson", "Kelvin", "Grace"];
 //     })
 // );
 
-// froEach()
+// forEach()
 // arr.forEach((e) => {
 //     console.log(e.toUpperCase());
 
