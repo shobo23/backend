@@ -6,6 +6,7 @@ app.use(express.json());
 
 let users = [];
 
+
 app.get("/", (req, res) => {
   res.status(200).json(users);
 });
