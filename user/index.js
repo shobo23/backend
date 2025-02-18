@@ -82,6 +82,7 @@ app.patch("/update-user/:id", async (req, res) => {
     const updateUser = await userModel.findByIdAndUpdate(
       req.params.id,
       {
+        
         email,
         name,
         password,
