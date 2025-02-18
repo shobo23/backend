@@ -64,12 +64,40 @@ const createUser = async (req, res) => {
 
 //     }
 // }
+const LoginUser = async (req, res) => {
+    try {
+      const { email, password } = req.body;
+  
+      // Check if the user exists
+      const user = await userModel.findOne({ email });
+      if (!user) {
+        return res.status(404).json({ status: false, message: "User not found" });
+      }
+  
+      // Compare passwords
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(401).json({ status: false, message: "Invalid credentials" });
+      }
+  
+      // If successful, return user details without password
+      return res.status(200).json({ 
+        status: true, 
+        message: "Login successful", 
+        user: { id: user._id, name: user.name, email: user.email } 
+      });
+  
+    } catch (error) {
+      return res.status(500).json({ status: false, error: error.message });
+    }
+  };
+  
 
 // update user details
 const updateUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    const hashPassword = await bcrypt.hash(password, 10)
+    const hashPassword = await bcrypt.hash(password, 10);
 
     const updateUser = await userModel.findByIdAndUpdate(
       req.params.id,
@@ -93,15 +121,31 @@ const updateUser = async (req, res) => {
 
 // delete a user
 const deleteAUser = async (req, res) => {
-    try {
-        const theUser = await userModel.findByIdAndDelete(req.params.id)
-        if (!theUser) {
-            res.status(404).json({status: false, message: "user does not exist"})
-        }
-        res.status(200).json({status:true, message:"user deleted successfully"})
-    } catch (error) {
-        res.status(500).json({status:false, message:error})
+  try {
+    const theUser = await userModel.findByIdAndDelete(req.params.id);
+    if (!theUser) {
+      res.status(404).json({ status: false, message: "user does not exist" });
     }
-}
+    res
+      .status(200)
+      .json({ status: true, message: "user deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ status: false, message: error });
+  }
+};
 
-module.exports = { getAllUser, getAUser, createUser };
+// delette all users
+const deleteAllUser = async (req, res) => {
+  try {
+    await userModel.deleteMany();
+
+    res.status(404).json({
+      status: true,
+      message: "all user deleted",
+    });
+  } catch (error) {
+    res.status(500).json({ status: false, error: error.message });
+  }
+};
+
+module.exports = { getAllUser, getAUser, createUser, updateUser, deleteAUser, deleteAllUser, LoginUser };
