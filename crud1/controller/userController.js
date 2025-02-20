@@ -94,16 +94,18 @@ const updateTask = async (req, res) => {
 
     const user = await taskManagerModel.findById(id);
     if (!user) {
-      res.status(404).json({status:false, message:"user not found"})
+      res.status(404).json({ status: false, message: "user not found" });
     }
-    if(title) task.title = table
-    if(description) task.description = description
-    if(complete) task.complete = complete
+    if (title) task.title = table;
+    if (description) task.description = description;
+    if (complete) task.complete = complete;
 
-    res.status(200).json({status:true, message:"task updated ✔", info:user})
+    res
+      .status(200)
+      .json({ status: true, message: "task updated ✔", info: user });
   } catch (error) {
-    handleError(res, error)
+    handleError(res, error);
   }
 };
 
-module.exports = { register, loginUser };
+module.exports = { register, loginUser, addTask, updateTask };
