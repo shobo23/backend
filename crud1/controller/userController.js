@@ -8,6 +8,7 @@ const handleError = (res, error) => {
   });
 };
 
+// create user and empty task array
 const register = async (req, res) => {
   try {
     const { userName, email, password } = req.body;
@@ -33,6 +34,7 @@ const register = async (req, res) => {
   }
 };
 
+// login user to view data
 async function loginUser(req, res) {
   try {
     const { email, password } = req.body;
@@ -50,5 +52,58 @@ async function loginUser(req, res) {
     handleError(res, error);
   }
 }
+
+// add task to respective id
+const addTask = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const { title, description } = req.body;
+    // check for empty fields
+    if (!title || !description) {
+      res
+        .status(400)
+        .json({ status: false, message: "All fields are required" });
+    }
+
+    const user = await taskManagerModel.findById(id);
+    if (!user) {
+      res.status(404).json({ message: "user not found" });
+    }
+    // pushe the submitted task array to user task array
+    user.task.push({ title, description, completed });
+    res
+      .status(200)
+      .json({ status: true, message: "task add ✔", added_task: user });
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+// update task by id
+const updateTask = async (req, res) => {
+  try {
+    const { id } = req.params.id;
+    const { title, description, complete } = req.body;
+
+    if (!title || !description || !complete) {
+      res
+        .status(400)
+        .json({ status: false, message: "all fields are required!" });
+    }
+
+    const user = await taskManagerModel.findById(id);
+    if (!user) {
+      res.status(404).json({status:false, message:"user not found"})
+    }
+    if(title) task.title = table
+    if(description) task.description = description
+    if(complete) task.complete = complete
+
+    res.status(200).json({status:true, message:"task updated ✔", info:user})
+  } catch (error) {
+    handleError(res, error)
+  }
+};
 
 module.exports = { register, loginUser };
