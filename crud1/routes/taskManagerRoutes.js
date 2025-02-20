@@ -10,9 +10,9 @@ router.post("/auth/register", register);
 router.post("/auth/login", loginUser);
 
 // add task
-router.post("/auth/addTask", addTask)
+router.post("/auth/addTask/:id", addTask)
 
 // update task
-router.post("/auth/updateTask", updateTask)
+router.patch("/auth/updateTask/:id", updateTask)
 
 module.exports = router;
