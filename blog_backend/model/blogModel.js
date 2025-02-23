@@ -1,7 +1,8 @@
-const { Schema, model } = require("mongoose");
+const { model, Schema } = require("mongoose")
 
-// user structure
-const userSchema = new Schema({
+
+// structure for the user and blog
+const blogSchema = new Schema({
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
@@ -11,8 +12,7 @@ const userSchema = new Schema({
     content: { type: String, required: true },
     createdAt: { type: Date, default: Date.now }
     }
-    ]
-   
-});
+    ]   
+})
 
-module.exports = userModel = model("user_and_blogs", userSchema);
+module.exports = blogModel = model("blogs", blogSchema)

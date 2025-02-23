@@ -1,13 +1,17 @@
-const Express = require("express");
-const connectDb = require("./config/blogConfig");
-const router = require("./routes/Routes");
+const express = require("express");
+const ConnectDb = require("./Config/blogDB");
+const { route } = require("./Routes/blogRoutes");
+const app = express();
+app.use(express.json());
 require("dotenv/config");
 
-const app = Express();
-app.use(Express.json());
-connectDb();
-app.use("/api", router);
+const { PORT1 } = process.env;
+const Port = PORT1;
 
-app.listen(process.env.process, () => {
-  console.log(new Date().toLocaleDateString(), process.env.Port);
+ConnectDb()
+
+app.use('/api', route)
+
+app.listen(Port, () => {
+  console.log((new Date().toLocaleDateString()), Port);
 });
