@@ -121,4 +121,27 @@ const updateBlog = async (req, res) => {
   }
 };
 
-module.exports = { createUser, getAll, login, createBlog, getblog, updateBlog };
+// delete one blog by Id
+const deleteOneBlog = async (req,res) => {
+    try {
+        const {userId, blogId} = req.params
+        const theUser = await blogModel.findById(userId)
+        if (!theUser) {
+            return res.status(404).json({status:false, message:"User not found"})
+        }
+
+        const theBlog = await blogModel.findOneAndDelete(blogId)
+        if (!theBlog) {
+            return res.status(404).json({status:false, message:"Blog does not exist"})
+        }
+
+        return res.status(200).json({status:true, message:"Blog deleted"})
+    } catch (error) {
+        handleError(res, error)
+    }
+
+}
+
+// delete all blog
+
+module.exports = { createUser, getAll, login, createBlog, getblog, updateBlog, deleteOneBlog };
