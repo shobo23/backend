@@ -121,4 +121,4 @@ const updateBlog = async (req, res) => {
   }
 };
 
-module.exports = { createUser, getAll, login, createBlog, getblog };
+module.exports = { createUser, getAll, login, createBlog, getblog, updateBlog };
